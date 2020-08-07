@@ -1,0 +1,38 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# Extracting .docx files in R
+Source : [Stackoverflow](https://stackoverflow.com/questions/50439684/how-to-extract-plain-text-from-docx-file-using-r)
+<br>
+The first step is to install and then import the `readtext` library 
+
+```{r}
+install.packages("readtext")
+library(readtext)
+```
+In the next step, we're going to load the text without any formatting in a variable `doctext`. Make sure the .docx file you want to pull text from is in your working directory.
+```{r}
+doctext <- readtext("IRS_Article.docx")
+doctext
+```
+Variable `doctext` contains just the text without any formatting, so if you need to extract some information you need to perform string search. For example for the document you mentioned in your comment, one approach could be as follows:
+
+```{r}
+library(readtext)
+doc.text <- readtext("IRS_Article.docx")$text
+
+# Split text into parts using new line character:
+doc.parts <- strsplit(doc.text, "\n")[[1]]
+doc.parts
+```
+To access the first line of the document, you can do this by adding the following lines:
+```{r}
+first_title.name <- doc.parts[1]
+first_title.name
+```
+Similarly, you can access other parts of the text by doing the following:
+```{r}
+first_title_content <- doc.parts[7]
+first_title_content
+```
